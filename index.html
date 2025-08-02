@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+            "OrbitControls": "https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js",
+            "GLTFLoader": "https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js"
+          }
+        }
+        </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moodboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; overflow: visible; }
+
+    @font-face {
+        font-family: NB;
+        src: url(NB.ttf);
+    }
+
+    body {
+      font-family: NB;
+      background: #9C9CFF;
+    background: radial-gradient(circle,rgba(156, 156, 255, 0.385) 0%, rgba(166, 166, 189, 0.179) 44%, #fffaf2 100%);
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    #model-container {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 30vh;           
+      z-index: 10;
+      background: transparent;
+    }
+    #model-container .no-webgl {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #777;
+      font-family: sans-serif;
+    }
+
+    .flex {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      filter: drop-shadow(0 0 5vw rgba(0, 0, 255, 0.236));
+    }
+    .grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: drop-shadow(0 0 5vw rgba(0, 0, 255, 0.236));
+      border-radius: 4px;
+    }
+
+
+    #play-btn {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    animation: breathe 3s ease-in-out infinite;
+    align-items: center;
+    display: flex;
+}
+
+@media screen and (max-width: 640px) {
+    #play-btn {
+        padding-bottom: 3rem;
+    }
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+        filter: drop-shadow(0 0 5vw rgba(0, 0, 255, 0.06));
+    }
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0px rgba(0,0,0,0.2));
+    }
+}
+
+  </style>
+</head>
+<body>
+    <div id="model-container">
+        <div class="no-webgl">Your browser doesn’t support WebGL.</div>
+      </div>
+      <audio id="track" controls>
+        <source src="siren.mp3" type="audio/mpeg">
+      </audio>
+        
+        <section class="grid">
+            <div id="play-btn">
+                <img class="siren" src="siren.png">
+            </div>
+            <img src="pic1.jpg" alt="Photo 1">
+            <img src="pic2.jpg" alt="Photo 2">
+            <img src="pic3.jpg" alt="Photo 3">
+            <img src="pic4.jpg" alt="Photo 4">
+            <img src="pic5.jpg" alt="Photo 1">
+            <img src="pic6.jpg" alt="Photo 2">
+            <img src="pic7.jpg" alt="Photo 3">
+            <img src="pic8.jpg" alt="Photo 4">
+            <img src="pic9.jpg" alt="Photo 3">
+        </section>
+   
+
+  <script type="module">
+
+    import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
+    import { OrbitControls } from 'https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader    } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
+
+    const container = document.getElementById('model-container');
+    const scene     = new THREE.Scene();
+    const renderer  = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.innerHTML = '';
+    container.appendChild(renderer.domElement);
+  
+    const camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 0.1, 100);
+    
+    function updateCameraPosition() {
+  const width = window.innerWidth;
+
+  if (width < 600) {
+    camera.position.set(0, 0, 8); 
+  } else if (width < 1024) {
+    camera.position.set(0, 0, 7);  
+  } else {
+    camera.position.set(0, 0, 4); 
+  }
+  camera.lookAt(0, 0, 0);
+}
+    
+  
+    
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.minDistance = 1.5;
+controls.maxDistance = 12; 
+  
+
+
+const ambientLight = new THREE.AmbientLight(0xffffff , .1);
+    scene.add(ambientLight);
+
+    const directionalLight1 = new THREE.DirectionalLight(0xff3300, 2);
+    directionalLight1.position.set(1, 1, 1);
+    scene.add(directionalLight1);
+
+    const directionalLight2 = new THREE.DirectionalLight(0x001eff, 3);
+    directionalLight2.position.set(1, -1, 1);
+    scene.add(directionalLight2);
+  
+   
+    const glassMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff,
+  metalness: 0.3,                
+  roughness: 0.4,                
+  transmission: 1,              
+  thickness: 2.0,              
+  ior: 5,                    
+  specularIntensity: 1,
+  specularColor: 0xffffff,
+  clearcoat: 1,
+  clearcoatRoughness: 0,
+  reflectivity: 1,          
+  envMapIntensity: 1    
+});
+
+new GLTFLoader().load('moodboard.gltf', gltf => {
+  const model = gltf.scene;
+  model.traverse(child => {
+    if (child.isMesh) {
+      child.material = glassMaterial;
+    }
+  });
+  scene.add(model);
+});
+
+  
+   
+window.addEventListener('resize', () => {
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+  updateCameraPosition();  
+});
+
+
+updateCameraPosition();
+  
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+  
+
+    <script>
+    const audio   = document.getElementById('track');
+    const btn     = document.getElementById('play-btn');
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+  </script>
+
+</body>
+</html>
