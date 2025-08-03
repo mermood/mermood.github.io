@@ -24,7 +24,7 @@
     body {
       font-family: NB;
       background: #9C9CFF;
-    background: radial-gradient(circle,rgba(156, 156, 255, 0.385) 0%, rgba(166, 166, 189, 0.179) 44%, #fffaf2 100%);
+    background: radial-gradient(circle,#9c9cff62 0%, rgba(166, 166, 189, 0.179) 44%, #fffaf2 100%);
       color: #333;
     }
 
@@ -94,6 +94,38 @@
     padding: .5rem;
 }
 
+.flex {
+    width: 100%;
+    padding: 20px;
+}
+.primary-btn {
+    background-color: #fffaf2;
+  color: 16161d;
+  font-family: NB, sans-serif;
+  font-size: 1rem;
+  width: 100%;
+  padding: 1rem;
+  border: 1px #5900ff solid;
+  cursor: pointer;
+  text-decoration: none;         
+  text-align: center;
+  color: #16161d;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+.primary-btn:hover {
+  transform: scale(1.01);
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 3px 18px 0px, rgba(255, 255, 255, 0.8) -6px -3px 18px 0px;
+}
+
+.primary-btn:active {
+    transform: scale(1);
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+
 @media screen and (max-width: 640px) {
     #play-btn {
         padding: 0 2rem 4rem 2rem;
@@ -142,6 +174,14 @@
             <img src="pic8.jpg" alt="Photo 4">
             <img src="pic9.jpg" alt="Photo 3">
         </section>
+        <div class="flex">
+            <a
+    class="primary-btn"
+    href="https://www.instagram.com/bustyschweinsteiger"
+    target="_blank"
+    rel="noopener noreferrer"
+  >Head over to my Instagram</a>
+          </div>
    
 
   <script type="module">
